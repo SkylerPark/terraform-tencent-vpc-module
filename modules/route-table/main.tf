@@ -27,7 +27,7 @@ resource "tencentcloud_route_table" "this" {
 ###################################################
 resource "tencentcloud_route_table_association" "this" {
   for_each       = { for idx, subnet_id in var.subnets : idx => subnet_id }
-  route_table_id = aws_route_table.this.id
+  route_table_id = tencentcloud_route_table.this.id
   subnet_id      = each.value
 }
 
@@ -50,7 +50,7 @@ resource "tencentcloud_route_table_entry" "ipv4" {
 ###################################################
 # IPv6 Routes
 ###################################################
-resource "tencentcloud_route_table_entry" "ipv4" {
+resource "tencentcloud_route_table_entry" "ipv6" {
   for_each = {
     for route in var.ipv6_routes :
     route.destination => route

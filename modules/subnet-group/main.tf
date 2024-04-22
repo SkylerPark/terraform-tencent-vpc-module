@@ -1,3 +1,17 @@
+locals {
+  subnets = [
+    for name, subnet in var.subnets : {
+      id   = tencentcloud_subnet.this[name].id
+      name = tencentcloud_subnet.this[name].name
+
+      availability_zone = tencentcloud_subnet.this[name].availability_zone
+
+      ipv4_cidr = subnet.type == "IPV4" ? tencentcloud_subnet.this[name].cidr_block : null
+      ipv6_cidr = subnet.type == "IPV6" ? subnet.ipv6_cidr : null
+    }
+  ]
+}
+
 ###################################################
 # Subnets
 ###################################################
@@ -22,12 +36,12 @@ resource "tencentcloud_vpc_ipv6_subnet_cidr_block" "this" {
   vpc_id = var.vpc_id
 
   dynamic "ipv6_subnet_cidr_blocks" {
-    for_each = [subnet.ipv6_cidr]
+    for_each = [each.value.ipv6_cidr]
     iterator = ipv6_cidr
 
     content {
       subnet_id       = tencentcloud_subnet.this[each.key].id
-      ipv6_cidr_block = ipv6_cidr
+      ipv6_cidr_block = ipv6_cidr.value
     }
   }
 }

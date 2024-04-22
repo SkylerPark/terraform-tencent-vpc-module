@@ -20,13 +20,16 @@
 
 해당 Terraform 모듈을 사용하여 아래 서비스를 관리 합니다.
 
-- **Tencent CVM (Elastic Compute Cloud)**
-  - instance
-  - spot-request
-  - key-pair
+- **Tencent VPC (Virtual Private Network)**
+  - vpc
+  - nat-gateway
+  - subnet-group
+  - route-table
+  - security-group
+  - elastic-ip
 
 ## Usage
 
 아래 예시를 활용하여 작성가능하며 examples 코드를 참고 부탁드립니다.
 
-### Single CVM Instance
+### vpc simple

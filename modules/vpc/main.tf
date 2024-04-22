@@ -7,13 +7,13 @@ locals {
 ###################################################
 resource "tencentcloud_vpc" "this" {
   name       = var.name
-  cidr_block = local.ipv6_enabled ? var.ipv6_cidrs[0].cidr : var.ipv4_cidr[0].cidr
+  cidr_block = local.ipv6_enabled ? var.ipv6_cidrs[0].cidr : var.ipv4_cidrs[0].cidr
 
-  dns_servers = var.dns_servers
+  dns_servers = length(var.dns_servers) > 0 ? var.dns_servers : null
 
   assistant_cidrs = local.ipv6_enabled ? length(var.ipv6_cidrs) - 1 > 0 ? [
     for index in length(var.ipv6_cidrs) - 1 : var.ipv6_cidrs[index].cidr
-    ] : [] : lentgh(var.ipv4_cidrs) - 1 > 0 ? [
+    ] : [] : length(var.ipv4_cidrs) - 1 > 0 ? [
     for index in length(var.ipv4_cidrs) - 1 : var.ipv4_cidrs[index].cidr
   ] : []
 
