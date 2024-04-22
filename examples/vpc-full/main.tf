@@ -7,8 +7,6 @@ locals {
   private_subnet_count  = 2
   public_subnet_count   = 2
   database_subnet_count = 2
-  lb_subnet_count       = 2
-  endpoint_subnet_count = 2
 
   nat_gateway_count        = local.single_nat_gateway ? 1 : local.multi_per_az_nat_gateway ? length(local.availability_zones) : 0
   multi_per_az_nat_gateway = true
